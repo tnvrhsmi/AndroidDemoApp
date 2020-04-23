@@ -2,16 +2,16 @@ package com.tnvrhsmi.knowcanada
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.tnvrhsmi.knowcanada.ui.main.MainFragment
+import com.tnvrhsmi.knowcanada.ui.main.CanadaDetailsListFragment
 
-class MainActivity : AppCompatActivity() {
+class CanadaDetailsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
+        setContentView(R.layout.canada_details_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
+                .replace(R.id.container, CanadaDetailsListFragment.newInstance())
                 .commitNow()
         }
     }
