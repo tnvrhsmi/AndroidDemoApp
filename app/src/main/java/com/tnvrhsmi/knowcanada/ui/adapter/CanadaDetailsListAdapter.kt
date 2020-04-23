@@ -2,6 +2,7 @@ package com.tnvrhsmi.knowcanada.ui.adapter
 import android.util.SparseArray
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.tnvrhsmi.knowcanada.data.model.FactListModel
 
 class CanadaDetailsListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -9,32 +10,8 @@ class CanadaDetailsListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
     private var delegateAdapter = SparseArray<ViewTypeDelegateAdapter>()
 
     init {
-        items.add(object :ViewType{
-            override fun getType() = AdapterConstant.CanadaDetailsItem
 
-        })
-        items.add(object :ViewType{
-            override fun getType() = AdapterConstant.CanadaDetailsItem
-
-        })
-        items.add(object :ViewType{
-            override fun getType() = AdapterConstant.CanadaDetailsItem
-
-        })
-        items.add(object :ViewType{
-            override fun getType() = AdapterConstant.CanadaDetailsItem
-
-        })
-        items.add(object :ViewType{
-            override fun getType() = AdapterConstant.CanadaDetailsItem
-
-        })
-        items.add(object :ViewType{
-            override fun getType() = AdapterConstant.CanadaDetailsItem
-
-        })
-
-        delegateAdapter.put(AdapterConstant.CanadaDetailsItem,CanadaDetailsItemAdapter())
+        delegateAdapter.put(AdapterConstants.CanadaDetailsItem,CanadaDetailsItemAdapter())
 
     }
 
@@ -50,5 +27,10 @@ class CanadaDetailsListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         delegateAdapter.get(getItemViewType(position))?.onBindViewHolder(holder,items[position])
+    }
+
+    fun addItems(factList: List<FactListModel>) {
+        items.addAll(factList)
+        notifyDataSetChanged()
     }
 }

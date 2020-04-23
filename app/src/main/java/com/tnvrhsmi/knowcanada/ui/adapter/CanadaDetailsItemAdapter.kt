@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.tnvrhsmi.knowcanada.R
+import com.tnvrhsmi.knowcanada.data.model.FactListModel
 import kotlinx.android.synthetic.main.canada_list_item.view.*
 
 class CanadaDetailsItemAdapter : ViewTypeDelegateAdapter {
@@ -13,7 +14,7 @@ class CanadaDetailsItemAdapter : ViewTypeDelegateAdapter {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {
         holder as CanadaDetailsItemViewHolder
-        holder.bind()
+        holder.bind(item as FactListModel)
     }
 
     class CanadaDetailsItemViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
@@ -21,12 +22,10 @@ class CanadaDetailsItemAdapter : ViewTypeDelegateAdapter {
         private val title = itemView.title_text
         private val description = itemView.description_text
 
-        fun bind() {
-            title.text = "Beavers"
-            description.text =
-                "Beavers are second only to humans in their ability to manipulate and" +
-                        " change their environment. They can measure up to 1.3 metres long. " +
-                        "A group of beavers is called a colony"
+        fun bind(item : FactListModel) {
+            title.text = item.title
+            description.text = item.description
+
         }
 
     }
