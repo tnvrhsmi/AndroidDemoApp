@@ -30,7 +30,8 @@ class CanadaDetailsListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
     }
 
     fun addItems(factList: List<FactListModel>) {
-        items.addAll(factList)
+        items.clear()
+        items.addAll(factList.filter{ !it.title.isNullOrBlank() })
         notifyDataSetChanged()
     }
 }

@@ -10,11 +10,11 @@ import com.tnvrhsmi.knowcanada.service.FactServiceImpl
 
 class CanadaDetailsListViewModel : DataFetchListener,ViewModel() {
     override fun onDataFetchSuccess(factModel: FactModel) {
-        dataFetchState.postValue(DataFetchState.Success(factModel?.rows)) //To change body of created functions use File | Settings | File Templates.
+        dataFetchState.postValue(DataFetchState.Success(factModel?.rows,factModel.title))
     }
 
     override fun onDataFetchError(errorMessage: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        dataFetchState.postValue(DataFetchState.Error(errorMessage))
     }
 
     val dataFetchState: MutableLiveData<DataFetchState> = MutableLiveData()
@@ -22,11 +22,15 @@ class CanadaDetailsListViewModel : DataFetchListener,ViewModel() {
     private var factService : FactService = FactServiceImpl()
 
     init {
+        fetchData()
+    }
+
+    fun fetchData() {
         factService.getFacts(this)
     }
 }
 
 sealed class DataFetchState {
-    class Success(val factList: List<FactListModel>) : DataFetchState()
+    class Success(val factList: List<FactListModel>,val title : String) : DataFetchState()
     class Error(val message: String?) : DataFetchState()
 }

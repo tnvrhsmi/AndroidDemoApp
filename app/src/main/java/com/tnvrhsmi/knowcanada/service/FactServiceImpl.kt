@@ -3,7 +3,6 @@ package com.tnvrhsmi.knowcanada.service
 import android.util.Log
 import com.tnvrhsmi.knowcanada.api.APIConstants
 import com.tnvrhsmi.knowcanada.api.APIHelper
-import com.tnvrhsmi.knowcanada.api.Fact
 import com.tnvrhsmi.knowcanada.data.model.DataFetchListener
 import com.tnvrhsmi.knowcanada.data.model.FactModel
 import retrofit2.Call
@@ -49,6 +48,7 @@ class FactServiceImpl : FactService {
                     }
                 }
             }
+
 
             override fun onFailure(call: Call<FactModel>, t: Throwable) {
                 dataFetchListener?.onDataFetchError("Something went wrong")
