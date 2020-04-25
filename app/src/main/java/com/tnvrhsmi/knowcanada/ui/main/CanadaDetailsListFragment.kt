@@ -3,21 +3,18 @@
 package com.tnvrhsmi.knowcanada.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.tnvrhsmi.knowcanada.R
 import com.tnvrhsmi.knowcanada.ui.adapter.CanadaDetailsListAdapter
 import kotlinx.android.synthetic.main.canada_details_list_fragment.*
-import kotlinx.android.synthetic.main.canada_list_item.*
 
 @Suppress("DEPRECATION")
 class CanadaDetailsListFragment : Fragment() {
@@ -38,12 +35,14 @@ class CanadaDetailsListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         setupRecyclerView()
         setupViewModel()
 
     }
 
 
+    //Viewmodel for this fragment setup
     private fun setupViewModel() {
         viewModel = ViewModelProviders.of(this).get(CanadaDetailsListViewModel::class.java)
         swipeView.isRefreshing = true
@@ -57,13 +56,32 @@ class CanadaDetailsListFragment : Fragment() {
                     activitySupport.supportActionBar?.title = state.title
                 }
                 is DataFetchState.Error -> {
-                    Toast.makeText(context,state.message,Toast.LENGTH_LONG).show()
+                    handleError(state)
+//                    Toast.makeText(context,state.message,Toast.LENGTH_LONG).show()
+
                 }
             }
 
         })
     }
 
+    // Showing alert if API fetch is not successful
+    private fun handleError(state: DataFetchState.Error) {
+        val errorAlert = activity?.let { it1 -> AlertDialog.Builder(it1) }
+        if (errorAlert != null) {
+            errorAlert.setMessage(state.message)
+            errorAlert.setTitle(R.string.alert_title)
+            errorAlert.setPositiveButton(R.string.retry) { dialogInterface, which ->
+                swipeView.isRefreshing = true
+                viewModel.fetchData()
+            }
+
+            errorAlert.show()
+
+        }
+    }
+
+    //pull to refresh setup
     private fun setupRecyclerView() {
         canadaDetailsListAdapter = CanadaDetailsListAdapter()
 
